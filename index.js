@@ -1,6 +1,6 @@
-const express = require('express')
-const app = express()
-const port = 5000
+const express = require("express");
+const app = express();
+const port = 5000;
 
 const bodyParser = require("body-parser"); // req.body
 const cookieParser = require("cookie-parser");
@@ -14,19 +14,25 @@ app.use(cookieParser());
 // MongoDB
 const config = require("./config/key.js");
 const mongoose = require("mongoose");
-mongoose // 몽구스를 이용해서 mongoDB에 연결
-  .connect(config.mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("MongoDB Connected..."))
-  .catch((err) => console.log(err));
+const dbConnect = async () => {
+  try {
+    await mongoose.connect(config.mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("MongoDB Connected...");
+  } catch (err) {
+    console.error("MongoDB 연결 오류:", err);
+    process.exit(1); // 연결 실패 시 프로세스 종료
+  }
+};
+dbConnect();
 
-  app.use('/api/users', require('./routes/users'));
-  app.get('/', (req, res) => {
-    res.send('Hello World!')
-  })
-  
+app.use("/api/users", require("./routes/users"));
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
