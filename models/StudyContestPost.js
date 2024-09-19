@@ -17,7 +17,7 @@ const postSchema = mongoose.Schema(
       required: true,
     },
     type: {
-      //스터디 or 대회
+      //study or contest
       type: String,
       required: true,
     },
@@ -30,7 +30,7 @@ const postSchema = mongoose.Schema(
       type: Date,
       required: true,
     },
-    meetingMethod: {
+    method: {
       //온라인, 오프라인, 둘다, 미정
       type: String,
       required: true,
