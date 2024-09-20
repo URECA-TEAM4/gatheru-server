@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { User } = require("../models/User");  // 모델 스키마 가져오기
+const { User } = require("../models/User"); // 모델 스키마 가져오기
 const { auth } = require("../middleware/auth");
 
 //=================================
@@ -10,17 +10,17 @@ const { auth } = require("../middleware/auth");
   // auth 미들웨어를 통과해야 다음으로 넘어감
   router.get("/auth", auth, async (req, res) => {
     try {
-        res.status(200).json({
-            _id: req.user._id,
-            isAdmin: req.user.role === 0 ? false : true, // 정책에 따라 바뀔 수 있음
-            isAuth: true,
-            email: req.user.email,
-            name: req.user.name,
-            role: req.user.role,
-            image: req.user.image,
-        });
+      res.status(200).json({
+        _id: req.user._id,
+        isAdmin: req.user.role === 0 ? false : true, // 정책에 따라 바뀔 수 있음
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        role: req.user.role,
+        image: req.user.image,
+      });
     } catch (err) {
-        res.status(500).json({ success: false, message: 'Server Error' });
+      res.status(500).json({ success: false, message: "Server Error" });
     }
   });
 
@@ -73,7 +73,6 @@ const { auth } = require("../middleware/auth");
     );
   });
   
-  
   // 로그아웃
   router.get("/logout", auth, (req, res) => {
     console.log(req.user);
@@ -82,5 +81,11 @@ const { auth } = require("../middleware/auth");
       return res.status(200).send({ success: true });
     });
   });
-
+  
+  router.get("/:userId", (req, res) => {
+    User.findById(req.params.userId)
+      .then((user) => res.json(user))
+      .catch((err) => res.json(err));
+  });
+  
   module.exports = router;
