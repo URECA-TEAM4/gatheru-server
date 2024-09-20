@@ -22,6 +22,11 @@ const postSchema = mongoose.Schema(
       required: true,
     },
     registeredNum: {
+      //모집한 인원 수
+      type: Number,
+      default: 0,
+    },
+    maximumNum: {
       //모집 인원 수
       type: Number,
       required: true,
