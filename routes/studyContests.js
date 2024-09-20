@@ -9,12 +9,6 @@ router.get("/get", (req, res) => {
     .catch((err) => res.json(err));
 });
 
-router.get("/:postId", (req, res) => {
-  StudyContestPost.findById(req.params.postId)
-    .then((post) => res.json(post))
-    .catch((err) => res.json(err));
-});
-
 router.post("/add", (req, res) => {
   // 회원 가입 할 때 필요한 정보들을 client에서 가져오면 그것들을 데이터베이스에 넣어준다.
   const studyContestPost = new StudyContestPost(req.body); // body parser를 이용해서 json 형식으로 정보를 가져온다.

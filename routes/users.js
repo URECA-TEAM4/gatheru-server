@@ -1,28 +1,29 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { User } = require("../models/User"); // 모델 스키마 가져오기
+const { User } = require("../models/User");  // 모델 스키마 가져오기
 const { auth } = require("../middleware/auth");
 
 //=================================
 //             User
 //=================================
 
-// auth 미들웨어를 통과해야 다음으로 넘어감
+  // auth 미들웨어를 통과해야 다음으로 넘어감
   router.get("/auth", auth, async (req, res) => {
     try {
-      res.status(200).json({
-        _id: req.user._id,
-        isAdmin: req.user.role === 0 ? false : true, // 정책에 따라 바뀔 수 있음
-        isAuth: true,
-        email: req.user.email,
-        name: req.user.name,
-        role: req.user.role,
-        image: req.user.image,
-      });
+        res.status(200).json({
+            _id: req.user._id,
+            isAdmin: req.user.role === 0 ? false : true, // 정책에 따라 바뀔 수 있음
+            isAuth: true,
+            email: req.user.email,
+            name: req.user.name,
+            role: req.user.role,
+            image: req.user.image,
+        });
     } catch (err) {
-      res.status(500).json({ success: false, message: "Server Error" });
+        res.status(500).json({ success: false, message: 'Server Error' });
     }
   });
+
   router.post("/register", (req, res) => {
     // 회원 가입 할 때 필요한 정보들을 client에서 가져오면 그것들을 데이터베이스에 넣어준다.
     const user = new User(req.body); // body parser를 이용해서 json 형식으로 정보를 가져온다.
@@ -72,6 +73,7 @@ const { auth } = require("../middleware/auth");
     );
   });
   
+  
   // 로그아웃
   router.get("/logout", auth, (req, res) => {
     console.log(req.user);
@@ -80,11 +82,5 @@ const { auth } = require("../middleware/auth");
       return res.status(200).send({ success: true });
     });
   });
-  
-  router.get("/:userId", (req, res) => {
-    User.findById(req.params.userId)
-      .then((user) => res.json(user))
-      .catch((err) => res.json(err));
-  });
-  
+
   module.exports = router;
