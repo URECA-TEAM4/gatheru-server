@@ -5,11 +5,10 @@ const { auth } = require("../middleware/auth"); // 사용자 인증 미들웨어
 
 // 사용자가 작성한 글 가져오기 (인증된 사용자만 접근 가능)
 router.get("/myposts", auth, (req, res) => {
-    const userId = req.user.id; // 인증된 사용자 ID 가져오기
-    MogakoPost.find({ writer: userId }) // 작성자가 userId인 글 찾기
-      .then(posts => res.json(posts))
-      .catch(err => res.status(500).json({ error: err.message }));
-  });
+  StudyContestPost.find({ writer: req.user._id }) // writer 필드가 로그인된 사용자와 일치하는 게시글 찾기
+    .then(posts => res.json(posts))
+    .catch(err => res.json({ success: false, err }));
+});
 
 // 특정 글 가져오기 (ID로 조회)
 router.get("/:postId", (req, res) => {
