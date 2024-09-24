@@ -31,6 +31,7 @@ dbConnect();
 app.use("/api/users", require("./routes/users"));
 app.use("/api/mogakos", require("./routes/mogakos"));
 app.use("/api/studyContests", require("./routes/studyContests"));
+app.use("/api/comments", require("./routes/comments"));
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
