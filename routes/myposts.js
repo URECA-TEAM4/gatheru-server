@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { MogakoPost } = require("../models/MogakoPost"); // 모델 스키마 가져오기
 const { auth } = require("../middleware/auth"); // 사용자 인증 미들웨어 가져오기
-
+const { StudyContestPost } = require("../models/StudyContestPost") // 모델 스키마 가져오기
 // 사용자가 작성한 글 가져오기 (인증된 사용자만 접근 가능)
 router.get("/myposts", auth, (req, res) => {
   StudyContestPost.find({ writer: req.user._id }) // writer 필드가 로그인된 사용자와 일치하는 게시글 찾기
