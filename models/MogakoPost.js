@@ -38,6 +38,11 @@ const postSchema = mongoose.Schema(
       type: Date,
       required: true,
     },
+    joinedUser: {
+      type: [Schema.Types.ObjectId], 
+      ref: "User",
+      default: [],
+    },
   },
   { timestamps: true }
 );
