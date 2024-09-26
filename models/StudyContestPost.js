@@ -40,6 +40,16 @@ const postSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    joinedUser: [{
+      userId: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+      comment: {
+        type: String,
+        required: true,
+      }
+    }],
   },
   { timestamps: true }
 );
