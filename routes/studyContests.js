@@ -7,14 +7,13 @@ router.get("/get", (req, res) => {
     .then((posts) => res.json(posts))
     .catch((err) => res.json(err));
 });
-
 router.get("/:postId", (req, res) => {
   StudyContestPost.findById(req.params.postId)
     .then((post) => res.json(post))
     .catch((err) => res.json(err));
 });
-
 router.post("/add", (req, res) => {
+
   const studyContestPost = new StudyContestPost(req.body); // body parser를 이용해서 json 형식으로 정보를 가져온다.
 
   studyContestPost.save((err, postInfo) => {

@@ -31,6 +31,8 @@ dbConnect();
 app.use("/api/users", require("./routes/users"));
 app.use("/api/mogakos", require("./routes/mogakos"));
 app.use("/api/studyContests", require("./routes/studyContests"));
+const postsRouter = require('./routes/myposts'); // myposts 라우터 추가
+app.use('/api/posts', postsRouter); // 경로 설정
 app.use("/api/notifications", require("./routes/notifications"));
 
 app.get("/", (req, res) => {
