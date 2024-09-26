@@ -35,19 +35,21 @@ router.post("/join", (req, res) => {
   // 게시글을 찾아서 신청자 배열에 userId 추가
   MogakoPost.findByIdAndUpdate(
     postId,
-    { 
+    {
       $addToSet: { joinedUser: userId }, // joinedUser 배열에 userId 추가
-      $inc: { registeredNum: 1 } // registeredNum 1 증가
+      $inc: { registeredNum: 1 }, // registeredNum 1 증가
     },
     { new: true } // 업데이트된 문서 반환
   )
-  .then((updatedPost) => {
-    if (!updatedPost) return res.status(404).json({ success: false, message: "게시글을 찾을 수 없습니다." });
-    res.status(200).json({ success: true, updatedPost });
-  })
-  .catch((err) => res.status(400).json({ success: false, err }));
+    .then((updatedPost) => {
+      if (!updatedPost)
+        return res
+          .status(404)
+          .json({ success: false, message: "게시글을 찾을 수 없습니다." });
+      res.status(200).json({ success: true, updatedPost });
+    })
+    .catch((err) => res.status(400).json({ success: false, err }));
 });
-
 
 // 신청자 삭제
 router.post("/unJoin", (req, res) => {
@@ -56,7 +58,10 @@ router.post("/unJoin", (req, res) => {
   // 게시글을 찾아서 신청자 배열에서 userId 제거
   MogakoPost.findById(postId)
     .then((post) => {
-      if (!post) return res.status(404).json({ success: false, message: "게시글을 찾을 수 없습니다." });
+      if (!post)
+        return res
+          .status(404)
+          .json({ success: false, message: "게시글을 찾을 수 없습니다." });
 
       // 신청자 배열에서 userId 제거
       post.joinedUser.pull(userId); // applicants 배열에서 userId 제거
@@ -70,15 +75,20 @@ router.post("/unJoin", (req, res) => {
       console.error(err); // 에러 내용을 콘솔에 출력
       res.status(400).json({ success: false, err });
     });
-  });
+});
 
-  // 모집 현황 가져오기
+// 모집 현황 가져오기
 router.get("/registeredNum/:postId", (req, res) => {
   // 게시글을 찾아서 registeredNum 반환
   MogakoPost.findById(req.params.postId)
     .then((post) => {
-      if (!post) return res.status(404).json({ success: false, message: "게시글을 찾을 수 없습니다." });
-      res.status(200).json({ success: true, registeredNum: post.registeredNum });
+      if (!post)
+        return res
+          .status(404)
+          .json({ success: false, message: "게시글을 찾을 수 없습니다." });
+      res
+        .status(200)
+        .json({ success: true, registeredNum: post.registeredNum });
     })
     .catch((err) => {
       console.error(err); // 에러 내용을 콘솔에 출력

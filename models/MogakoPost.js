@@ -39,7 +39,7 @@ const postSchema = mongoose.Schema(
       required: true,
     },
     joinedUser: {
-      type: [Schema.Types.ObjectId], 
+      type: [Schema.Types.ObjectId],
       ref: "User",
       default: [],
     },
