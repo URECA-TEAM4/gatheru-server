@@ -14,9 +14,9 @@ router.get("/:postId", (req, res) => {
 });
 router.post("/add", (req, res) => {
 
-  const studyContestPost = new StudyContestPost(req.body); // body parser를 이용해서 json 형식으로 정보를 가져온다.
+  const StudyContestPost = new StudyContestPost(req.body); // body parser를 이용해서 json 형식으로 정보를 가져온다.
 
-  studyContestPost.save((err, postInfo) => {
+  StudyContestPost.save((err, postInfo) => {
     // 몽고디비에서 오는 메소드
     if (err) return res.json({ success: false, err });
     return res.status(200).json({
