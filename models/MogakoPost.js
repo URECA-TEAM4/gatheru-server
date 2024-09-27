@@ -45,13 +45,13 @@ const postSchema = mongoose.Schema(
     lng: {
       type: String, //경도
       required: true,
+    },
     joinedUser: {
       type: [Schema.Types.ObjectId],
       ref: "User",
       default: [],
     },
   },
-},
   { timestamps: true }
 );
 
