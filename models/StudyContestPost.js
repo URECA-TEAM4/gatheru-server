@@ -57,3 +57,4 @@ const postSchema = mongoose.Schema(
 const StudyContestPost = mongoose.model("StudyContestPost", postSchema); // 스키마를 모델로 감싸준다.
 
 module.exports = { StudyContestPost }; // 다른 곳에서도 사용할 수 있도록 export 해준다.
+
