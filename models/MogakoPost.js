@@ -39,7 +39,7 @@ const postSchema = mongoose.Schema(
       required: true,
     },
     lat: {
-      type: String, //위도 
+      type: String, //위도
       required: true,
     },
     lng: {
