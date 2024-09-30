@@ -20,6 +20,9 @@ This is the server-side code for **Gather to U**, built with Node.js and MongoDB
 - **Dotenv** - To manage environment variables.
 - **Nodemon** - Development tool to automatically restart the server.
 
+### ERD(Entity Relationship Diagram)
+<img width="486" alt="image" src="https://github.com/user-attachments/assets/645d6b26-cb24-470b-9f47-a91e7e355712">
+
 ## ️⚙️ Installation
 
 ### Steps
