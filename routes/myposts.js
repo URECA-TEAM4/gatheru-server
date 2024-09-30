@@ -62,7 +62,9 @@ router.post("/delete", (req, res) => {
 
 // 게시글 수정
 router.post("/update", (req, res) => {
-  const updateFields = {
+  const { postId, postType } = req.body;
+
+  const updateMogakoFields = {
     title: req.body.title,
     content: req.body.content,
     datetime: new Date(req.body.datetime), // ISO 형식의 날짜를 Date 객체로 변환
@@ -70,16 +72,47 @@ router.post("/update", (req, res) => {
     location: req.body.location,
   };
 
-  MogakoPost.findOneAndUpdate(
-    { _id: req.body.postId },  // 업데이트할 게시글의 ID
-    { $set: updateFields },    // 업데이트할 필드를 모두 한 번에 설정
-    { new: true }              // 업데이트 후의 새로운 데이터 반환
-  )
-    .populate('writer')         // 필요한 경우 writer 필드도 같이 반환
-    .exec((err, updatedPost) => {
-      if (err) return res.status(400).send(err);  // 에러 발생 시 처리
-      return res.status(200).json({ success: true, updatedPost });  // 성공 시 업데이트된 게시글 반환
-    });
+  const updateStudyFields = {
+    title: req.body.title,
+    content: req.body.content,
+    deadline: new Date(req.body.deadline), // ISO 형식의 날짜를 Date 객체로 변환
+    maximumNum: req.body.maximumNum,
+    type: req.body.editedType,
+    method: req.body.editedMethod,
+  };
+  
+  // postType에 따라 적절한 모델에서 수정
+  if (postType === "mogako") {
+    MogakoPost.findOneAndUpdate(
+      { _id: postId },  // 업데이트할 게시글의 ID
+      { $set: updateMogakoFields },    // 업데이트할 필드를 모두 한 번에 설정
+      { new: true }              // 업데이트 후의 새로운 데이터 반환
+    )
+      .populate('writer')         // 필요한 경우 writer 필드도 같이 반환
+      .exec((err, updatedPost) => {
+        if (err) return res.status(400).send(err);  // 에러 발생 시 처리
+        return res.status(200).json({ success: true, updatedPost });  // 성공 시 업데이트된 게시글 반환
+      });
+
+  } else if (postType !== "mogako") {
+    StudyContestPost.findOneAndUpdate(
+      { _id: postId },  // 업데이트할 게시글의 ID
+      { $set: updateStudyFields },    // 업데이트할 필드를 모두 한 번에 설정
+      { new: true }              // 업데이트 후의 새로운 데이터 반환
+    )
+      .populate('writer')         // 필요한 경우 writer 필드도 같이 반환
+      .exec((err, updatedPost) => {
+        if (err) return res.status(400).send(err);  // 에러 발생 시 처리
+        return res.status(200).json({ success: true, updatedPost });  // 성공 시 업데이트된 게시글 반환
+      });
+  } else {
+    return res.status(400).json({ success: false, message: "유효하지 않은 게시글 유형입니다." });
+  }
+
+
+
+
+
 });
 
 module.exports = router;
