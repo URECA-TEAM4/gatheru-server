@@ -40,11 +40,24 @@ router.post("/add", auth, (req, res) => {
 
 // 게시글 삭제
 router.post("/delete", (req, res) => {
-  MogakoPost.findOneAndDelete({ _id: req.body.postId })
-  .exec((err) => {
-      if(err) return res.status(400).send(err)
-      res.status(200).json({ success: true })
-  })
+  const { postId, postType } = req.body;
+
+  // postType에 따라 적절한 모델에서 삭제
+  if (postType === "mogako") {
+    MogakoPost.findOneAndDelete({ _id: postId })
+      .exec((err) => {
+        if (err) return res.status(400).send(err);
+        return res.status(200).json({ success: true });
+      });
+  } else if (postType !== "mogako") {
+    StudyContestPost.findOneAndDelete({ _id: postId })
+      .exec((err) => {
+        if (err) return res.status(400).send(err);
+        return res.status(200).json({ success: true });
+      });
+  } else {
+    return res.status(400).json({ success: false, message: "유효하지 않은 게시글 유형입니다." });
+  }
 });
 
 module.exports = router;
