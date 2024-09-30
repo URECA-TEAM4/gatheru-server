@@ -38,4 +38,13 @@ router.post("/add", auth, (req, res) => {
   });
 });
 
+// 게시글 삭제
+router.post("/delete", (req, res) => {
+  MogakoPost.findOneAndDelete({ _id: req.body.postId })
+  .exec((err) => {
+      if(err) return res.status(400).send(err)
+      res.status(200).json({ success: true })
+  })
+});
+
 module.exports = router;
