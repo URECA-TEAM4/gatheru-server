@@ -60,4 +60,26 @@ router.post("/delete", (req, res) => {
   }
 });
 
+// 게시글 수정
+router.post("/update", (req, res) => {
+  const updateFields = {
+    title: req.body.title,
+    content: req.body.content,
+    datetime: new Date(req.body.datetime), // ISO 형식의 날짜를 Date 객체로 변환
+    maximumNum: req.body.maximumNum,
+    location: req.body.location,
+  };
+
+  MogakoPost.findOneAndUpdate(
+    { _id: req.body.postId },  // 업데이트할 게시글의 ID
+    { $set: updateFields },    // 업데이트할 필드를 모두 한 번에 설정
+    { new: true }              // 업데이트 후의 새로운 데이터 반환
+  )
+    .populate('writer')         // 필요한 경우 writer 필드도 같이 반환
+    .exec((err, updatedPost) => {
+      if (err) return res.status(400).send(err);  // 에러 발생 시 처리
+      return res.status(200).json({ success: true, updatedPost });  // 성공 시 업데이트된 게시글 반환
+    });
+});
+
 module.exports = router;
