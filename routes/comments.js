@@ -27,4 +27,10 @@ router.get("/:postId", (req, res) => {
     .catch((err) => res.status(500).json({ error: err.message }));
 });
 
+router.get("/comment/:responseTo", (req, res) => {
+  Comment.find({ responseTo: req.params.responseTo })
+    .then((comments) => res.json(comments))
+    .catch((err) => res.status(500).json({ error: err.message }));
+});
+
 module.exports = router;
